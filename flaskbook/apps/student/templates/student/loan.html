@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('student.static', filename='style.css') }}" />
+</head>
+
+    <body>
+    <h2>アイテムを借りる</h2>
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+            <label for="item_id">借りたいアイテムを選択</label>
+            {{ form.item_id(class="form-control") }}
+        </div>
+
+        <div class="form-group">
+            <label for="quantity">借りる個数</label>
+            {% if form.item_id.data %}
+                {% set selected_item = form.item_id.choices | selectattr(0, 'equalto', form.item_id.data) | first %}
+                {% set max_quantity = selected_item[1].quantity %}
+                <input type="number" class="form-control" id="quantity" name="quantity" min="1" max="{{ max_quantity }}" required>
+            {% else %}
+                <input type="number" class="form-control" id="quantity" name="quantity" min="1" required>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">借りる</button>
+    </form>
+
+    <a href="{{ url_for('student.home') }}" class="btn btn-primary">ホームに戻る</a>
+    </body>
+</html>

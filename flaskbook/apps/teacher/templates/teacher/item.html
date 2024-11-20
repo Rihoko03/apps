@@ -1,0 +1,40 @@
+{% extends "teacher/base.html" %}
+
+{% block content %}
+  <h1>アイテム一覧</h1>
+  <a href="{{ url_for('teacher.new_item') }}">新しいアイテムを追加</a> | 
+  <a href="{{ url_for('teacher.home') }}">ホーム画面に戻る</a>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>名前</th>
+        <th>数量</th>
+        <th>画像</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in items %}
+      <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>
+          {% if item.image %}
+            <!-- 画像が存在する場合、static/images/ディレクトリから画像を表示 -->
+            <img src="{{ url_for('static', filename='images/' + item.image) }}" style="width: 100px; height: auto;">
+          {% else %}
+            <!-- 画像が存在しない場合 -->
+            画像なし
+          {% endif %}
+        </td>
+        <td>
+          <a href="{{ url_for('teacher.edit_item', item_id=item.id) }}">編集</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <br>
+
+{% endblock %}

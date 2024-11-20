@@ -1,0 +1,31 @@
+{% extends "teacher/base.html" %}
+
+{% block content %}
+<h1>貸出統計</h1>
+<a href="{{ url_for('teacher.home') }}">ホームに戻る</a>
+
+<div>
+    {% for item, image in item_stats.items() %}
+        <h2>{{ item }}</h2>
+        <img src="data:image/png;base64,{{ image }}" alt="{{ item }}貸出統計">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>日付</th>
+                    <th>貸出数</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for date, count in item_tables[item] %}
+                    <tr>
+                        <td>{{ date }}</td>
+                        <td>{{ count }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endfor %}
+</div>
+
+{% endblock %}

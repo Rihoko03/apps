@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('student.static', filename='style.css' ) }}" />
+</head>
+
+    <body>
+    <h2>返却するアイテムを選択</h2>
+    <a href="{{ url_for('student.home') }}" class="btn btn-primary">ホームに戻る</a>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <table>
+            <thead>
+                <tr>
+                    <th>アイテム名</th>
+                    <th>貸出日</th>
+                    <th>返却日</th>
+                    <th>借りた個数</th>
+                    <th>返却</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for loan in loans %}
+                    <tr>
+                        <td>{{ loan.item.name }}</td>
+                        <td>{{ loan.loan_date.strftime('%Y-%m-%d') }}</td>
+                        <td>
+                            {% if loan.return_date %}
+                                {{ loan.return_date.strftime('%Y-%m-%d') }}
+                            {% else %}
+                                未返却
+                            {% endif %}
+                        </td>
+                        <td>{{ loan.quantity }}</td>
+                        <td>
+                            {% if not loan.return_date %}
+                                <input type="checkbox" name="loan_id" value="{{ loan.id }}">
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5">返却するアイテムはありません。</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-danger">返却</button>
+    </form>
+    </body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>貸出履歴</title>
+    <link rel="stylesheet" href="{{ url_for('student.static', filename='style.css') }}" />
+</head>
+
+<body>
+    <h2>貸出履歴</h2>
+    <a href="{{ url_for('student.home') }}" class="button">ホームに戻る</a>
+    <!-- 現在貸し出し中のアイテム -->
+    <h4>現在貸し出し中のアイテム</h4>
+    <table>
+        <thead>
+            <tr>
+                <th>アイテム名</th>
+                <th>貸出日</th>
+                <th>返却日</th>
+                <th>借りた個数</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for loan in loans %}
+                {% if loan.return_date is none %}
+                    <tr>
+                        <td>{{ loan.item.name }}</td>
+                        <td>{{ loan.loan_date.strftime('%Y-%m-%d') }}</td>
+                        <td>未返却</td>
+                        <td>{{ loan.quantity }}</td>
+                    </tr>
+                {% endif %}
+            {% else %}
+                <tr>
+                    <td colspan="4">現在貸し出し中のアイテムはありません。</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- 返却済みのアイテム -->
+    <h4>返却済みのアイテム</h4>
+    <table>
+        <thead>
+            <tr>
+                <th>アイテム名</th>
+                <th>貸出日</th>
+                <th>返却日</th>
+                <th>借りた個数</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for loan in loans %}
+                {% if loan.return_date %}
+                    <tr>
+                        <td>{{ loan.item.name }}</td>
+                        <td>{{ loan.loan_date.strftime('%Y-%m-%d') }}</td>
+                        <td>{{ loan.return_date.strftime('%Y-%m-%d') }}</td>
+                        <td>{{ loan.quantity }}</td>
+                    </tr>
+                {% endif %}
+            {% else %}
+                <tr>
+                    <td colspan="4">返却されたアイテムはありません。</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    
+</body>
+
+</html>

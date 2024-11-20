@@ -1,0 +1,39 @@
+{% extends "teacher/base.html" %}
+
+{% block title %}生徒編集{% endblock %}
+
+{% block content %}
+    <h2>生徒編集</h2>
+    <form action="{{ url_for('teacher.edit_student', student_id=student.id) }}" method="POST" novalidate="novalidate">
+        {{ form.csrf_token }}
+
+        <p>
+            {{ form.username.label }} {{ form.username(placeholder="ユーザー名", value=student.username) }}
+        </p>
+        {% for error in form.username.errors %}
+            <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+
+        <p>
+            {{ form.email.label }} {{ form.email(placeholder="メールアドレス", value=student.email) }}
+        </p>
+        {% for error in form.email.errors %}
+            <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+
+        <p>
+            {{ form.student_number.label }} {{ form.student_number(placeholder="学籍番号", value=student.student_number) }}
+        </p>
+        {% for error in form.student_number.errors %}
+            <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+
+        <p><input type="submit" value="更新" /></p>
+    </form>
+
+    <form action="{{ url_for('teacher.delete_student', student_id=student.id) }}" method="POST">
+        {{ form.csrf_token }}
+        <input type="submit" value="削除">
+    </form>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('student.static', filename='style.css') }}" />
+</head>
+
+    <body>
+
+    <h2>借りられるもの一覧</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>アイテム名</th>
+                <th>画像</th>
+                <th>貸出状況</th>
+                <th>借りられる個数</th> <!-- 借りられる個数のカラムを追加 -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in available_items %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>
+                        {% if item.image %}
+                        <img src="{{ url_for('static', filename='images/' + item.image) }}" style="width: 100px; height: auto;">
+                        {% else %}
+                        画像なし
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if item.available and item.quantity > 0 %}
+                            借りられます
+                        {% else %}
+                            貸出中
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if item.quantity > 0 %}
+                            {{ item.quantity }} 個
+                        {% else %}
+                            0 個
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">借りられるアイテムはありません。</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('student.home') }}" class="btn btn-primary">ホームに戻る</a>
+    </body>
+</html>

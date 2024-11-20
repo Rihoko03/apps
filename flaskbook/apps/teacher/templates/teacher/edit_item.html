@@ -1,0 +1,32 @@
+{% extends "teacher/base.html" %}
+
+{% block content %}
+  <h2>アイテム編集</h2>
+  <form method="POST" enctype="multipart/form-data">
+    {{ form.csrf_token }}
+
+    <label for="name">アイテム名:</label>
+    <input type="text" id="name" name="name" value="{{ form.name.data or item.name }}" required>
+    <br>
+
+    <label for="quantity">数量:</label>
+    <input type="number" id="quantity" name="quantity" value="{{ form.quantity.data or item.quantity }}" required>
+    <br>
+
+    {% for error in form.name.errors %}
+      <span style="color: red;">{{ error }}</span>
+    {% endfor %}
+    {% for error in form.quantity.errors %}
+      <span style="color: red;">{{ error }}</span>
+    {% endfor %}
+
+    <button type="submit">更新</button>
+  </form>
+
+  <form action="{{ url_for('teacher.delete_item', item_id=item.id) }}" method="POST">
+    {{ form.csrf_token }}
+    <input type="submit" value="削除">
+  </form>
+
+  <a href="{{ url_for('teacher.home') }}" class="button">ホーム画面に戻る</a>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "teacher/base.html" %}
+
+{% block content %}
+  <h2>新しいアイテムを追加</h2>
+
+  <!-- アイテム追加フォーム -->
+  <form method="POST" action="{{ url_for('teacher.new_item') }}" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+
+    <div class="form-group">
+      <label for="name">アイテム名</label>
+      {{ form.name(class="form-control", id="name", placeholder="アイテム名を入力") }}
+    </div>
+
+    <div class="form-group">
+      <label for="quantity">数量</label>
+      {{ form.quantity(class="form-control", id="quantity", placeholder="数量を入力", min="0") }}
+    </div>
+
+    <div class="form-group">
+      <label for="image">画像</label>
+      {{ form.image(class="form-control", id="image") }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">アイテムを追加</button>
+  </form>
+
+  <br>
+  <a href="{{ url_for('teacher.home') }}">ホーム画面に戻る</a>
+  <a href="{{ url_for('teacher.item') }}">貸出一覧に戻る</a>
+{% endblock %}

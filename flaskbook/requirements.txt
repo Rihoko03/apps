@@ -1,0 +1,16 @@
+###### Requirements without Version Specifiers ######
+flask
+python-dotenv
+email-validator
+sqlalchemy
+flask-login
+flask-migrate
+flask-wtf
+torch
+torchvision
+opencv-python
+
+#
+###### Requirements with Version Specifiers ######
+#   See https://www.python.org/dev/peps/pep-0440/#version-specifiers
+numpy == 1.26.4   

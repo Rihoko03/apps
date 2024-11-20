@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('teacher.static', filename='style.css') }}" />
+</head>
+
+<body>
+    <h2>ホーム画面</h2>
+    <div>
+        {% if current_user.is_authenticated %}
+        <p>
+            <span>{{ current_user.teachername }}</span>
+            <span><a href="{{ url_for('teacher.logout') }}">ログアウト</a></span>
+        </p>
+        {% endif %}
+    </div>
+    
+    <div class="button-container">
+        <a href="{{ url_for('teacher.create_student') }}" class="button">生徒登録</a>
+        <a href="{{ url_for('teacher.create_teacher') }}" class="button">教師登録</a>
+        <a href="{{ url_for('teacher.student_index') }}" class="button">生徒一覧</a>
+        <a href="{{ url_for('teacher.teacher_index') }}" class="button">教師一覧</a>
+        <a href="{{ url_for('teacher.new_item') }}" class="button">貸出登録</a>
+        <a href="{{ url_for('teacher.item') }}" class="button">貸出一覧</a>
+        <a href="{{ url_for('teacher.loan_status', student_id=current_user.id) }}" class="button">貸出状況</a>
+        <a href="{{ url_for('teacher.loan_statistics') }}" class="btn btn-primary">貸出状況グラフ</a>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,27 @@
+{% extends "teacher/base.html" %}
+
+{% block title %}生徒の一覧{% endblock %}
+
+{% block content %}
+    <h2>生徒の一覧</h2>
+    <a href="{{ url_for('teacher.home') }}" class="button">ホーム画面に戻る</a>  
+
+    <a href="{{ url_for('teacher.create_student') }}">生徒新規作成</a>
+    <table>
+        <tr>
+            <th>生徒ID</th>
+            <th>ユーザー名</th>
+            <th>メールアドレス</th>
+        </tr>
+        {% for student in students %}
+        <tr>
+            <td>
+                <a href="{{ url_for('teacher.edit_student', student_id=student.id) }}">{{ student.id }}</a>
+            </td>
+            <td>{{ student.username }}</td>
+            <td>{{ student.email }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

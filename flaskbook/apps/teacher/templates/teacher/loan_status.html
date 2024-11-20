@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>貸出状況</title>
+    <link rel="stylesheet" href="{{ url_for('teacher.static', filename='style.css') }}" />
+</head>
+
+<body>
+    <h2>全生徒の貸出状況</h2>
+    <a href="{{ url_for('teacher.student_index') }}" class="button">生徒一覧に戻る</a>
+    <a href="{{ url_for('teacher.home') }}" class="button">ホームに戻る</a>
+
+    <!-- 現在貸し出し中のアイテム -->
+    <h4>現在貸し出し中のアイテム</h4>
+    <table>
+        <thead>
+            <tr>
+                <th>生徒名</th>
+                <th>アイテム名</th>
+                <th>数量</th>
+                <th>貸出日</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student, data in loan_data.items() %}
+                {% for loan in data.loans %}
+                    <tr>
+                        <td>{{ student.username }}</td>
+                        <td>{{ loan.item.name }}</td>
+                        <td>{{ loan.quantity }}</td>
+                        <td>{{ loan.loan_date }}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+            {% if loan_data|length == 0 %}
+                <tr>
+                    <td colspan="4">貸し出し中のアイテムはありません。</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+    <!-- 返却済みのアイテム -->
+    <h4>返却済みのアイテム</h4>
+    <table>
+        <thead>
+            <tr>
+                <th>生徒名</th>
+                <th>アイテム名</th>
+                <th>数量</th>
+                <th>貸出日</th>
+                <th>返却日</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student, data in loan_data.items() %}
+                {% for loan in data.returned_loans %}
+                    <tr>
+                        <td>{{ student.username }}</td>
+                        <td>{{ loan.item.name }}</td>
+                        <td>{{ loan.quantity }}</td>
+                        <td>{{ loan.loan_date }}</td>
+                        <td>{{ loan.return_date }}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+            {% if loan_data|length == 0 %}
+                <tr>
+                    <td colspan="5">返却されたアイテムはありません。</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+    <div class="button-container">
+    </div>
+</body>
+
+</html>

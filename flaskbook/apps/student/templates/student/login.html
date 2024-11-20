@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>生徒ログイン</title>
+    <link rel="stylesheet" href="{{ url_for('student.static', filename='style.css') }}" />
+</head>
+
+<body>
+    <h2>生徒ログイン</h2>
+
+    <form action="{{ url_for('student.login') }}" method="post" novalidate="novalidate">
+        {{ form.csrf_token }}
+
+        <p>
+            {{ form.student_number.label }}
+            {{ form.student_number(placeholder="学籍番号") }}
+        </p>
+        {% for error in form.student_number.errors %}
+        <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+
+        <p>{{ form.submit() }}</p>
+    </form>
+
+</body>
+
+</html>
